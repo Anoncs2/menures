@@ -1,0 +1,582 @@
+<!-- ============================================================== -->
+
+      <!-- Start right Content here -->
+
+      <!-- ============================================================== -->
+
+      <div class="content-page">
+
+          <!-- Start content -->
+
+          <div class="content">
+
+              <div class="container">
+
+
+
+                  <div class="row">
+
+        <div class="col-xs-12">
+
+          <div class="page-title-box">
+
+                              <h4 class="page-title"><i class="fa fa-users"></i> เพิ่มกลุ่มผู้ใช้งานในระบบ</h4>
+
+                              <!-- <ol class="breadcrumb p-0">
+
+                                  <li>
+
+                                      <a href="#">Uplon</a>
+
+                                  </li>
+
+                                  <li>
+
+                                      <a href="#">Tables</a>
+
+                                  </li>
+
+                                  <li class="active">
+
+                                      Datatable
+
+                                  </li>
+
+                              </ol> -->
+
+                              <div class="clearfix"></div>
+
+                          </div>
+
+0        </div>
+
+      </div>
+
+                  <!-- end row -->
+
+
+
+
+
+                  <div class="row">
+
+                      <div class="col-sm-12">
+
+                          <div class="card-box table-responsive">
+
+                              <!-- <h4 class="m-t-0 header-title"><b>Default Example</b></h4>
+
+                              <p class="text-muted font-13 m-b-30">
+
+                                  DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.
+
+                              </p> -->
+
+                              <div class="m-b-10 pull-right">
+
+                                  <button class="btn btn-default add" data-toggle="modal" data-target=".bs-example-modal-lg" onclick="document.getElementById('FrmAction').reset();"><i class="fa fa-plus"></i> สร้างใหม่</button>
+
+
+
+
+
+
+
+<!-- //onclick="window.location='<?=base_url()?>Users/CreateUpdate'"  table-striped table-bordered -->
+
+                              </div>
+
+                              <div class="clearfix"></div>
+
+
+
+
+
+                              <table id="datatable" class="table">
+
+                                  <thead>
+
+                                      <tr>
+
+                                          <th>ผู้ใช้งาน</th>
+
+
+
+                                          <th width="18%" style="text-align:center !important;">ใช้งาน/ไม่ใช้งาน</th>
+
+                                          <th width="15%">&nbsp;</th>
+
+                                      </tr>
+
+                                  </thead>
+
+
+
+
+
+                                  <tbody>
+
+                                    <?php
+
+                                    if(!empty($res)){
+
+                                      foreach ($res as $key => $value) {
+
+
+
+                                     ?>
+
+                                      <tr>
+
+                                          <td><?=$value->Group_Name?></td>
+
+
+
+                                          <td style="text-align:center !important;">
+
+                                            <a  style="cursor: pointer;" data-id="<?=$value->Group_ID?>" data-status="<?=$value->Group_Status==1?'0':'1'?>" data-url="<?=base_url().'usergroup/UpdateStatus'?>" onclick="UpdateStatus(this);">
+
+                                            <i class="fa <?=$value->Group_Status==1?'fa-check green':'fa-times red'?> fa-2x"></i>
+
+                                            </a>
+
+                                          </td>
+
+                                          <td style="text-align:center !important;"><div class="btn-group dropdown">
+
+                                          <button type="button" class="btn btn-dark waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="<?=$value->Group_ID?>" data-url="<?=base_url().'usergroup/Editgroupone'?>" onclick="EditData(this);">แก้ไข</button>
+
+                                          <button type="button" class="btn btn-dark dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="caret"></i></button>
+
+                                          <div class="dropdown-menu">
+
+                                                        <a class="dropdown-item" data-delid="<?=$value->Group_ID?>"  data-urldel="<?=base_url().'usergroup/DeleteGroups'?>" onclick="DeleteData(this);" style="cursor: pointer;">ลบ</a>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+
+                                      </tr>
+
+                                    <?php }} ?>
+
+
+
+                                  </tbody>
+
+                              </table>
+
+                          </div>
+
+                      </div>
+
+                  </div> <!-- end row -->
+
+
+
+
+
+              </div> <!-- container -->
+
+
+
+          </div> <!-- content -->
+
+
+
+      </div>
+
+      <!-- End content-page -->
+
+      <div class="alert alert-success" id="msg" style="display:none;" role="alert">บันทึกเรียบร้อย</div>
+
+      <div class="alert alert-danger" id="error" style="display:none;" role="alert">มีกลุ่มผู้ใช้งานนี้อยู่แล้ว</div>
+
+
+
+      <!--  Modal content for the above example -->
+
+                           <div class="modal modalfull fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" data-backdrop="static">
+
+                               <div class="modal-dialog modal-dialogfull modal-lg">
+
+                                   <div class="modal-content modal-contentfull">
+
+                                       <div class="modal-header modal-headerfull">
+
+                                           <button type="button" class="close closefull cls" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('FrmAction').reset();"><i class="fa fa-times fa-2x"></i></button>
+
+                                           <h4 class="modal-title modal-titlefull text-center" id="myLargeModalLabel"></h4>
+
+                                       </div>
+
+                                       <form method="post" action="" role="form" id="FrmAction"  data-parsley-validate novalidate>
+
+                                       <div class="modal-body modal-bodyfull">
+
+                                         <div class="row">
+
+
+
+
+
+                                             <div class="col-sm-12 col-xs-12 col-md-12">
+
+                                                 <div class="p-20">
+
+                                                         <div class="form-group row">
+
+                                                             <label for="inputEmail3" class="col-sm-3 form-control-label">ชื่อ<span class="text-danger">*</span></label>
+
+                                                             <div class="col-sm-7">
+
+                                                               <input type="text" name="Name" id="Name" required
+
+                                                                    class="form-control" >
+
+
+
+                                                             </div>
+
+                                                         </div>
+
+
+
+                                                         <div class="form-group row">
+
+                                                             <label for="inputEmail3" class="col-sm-3 form-control-label">กำหนดสิทธิ์การเข้าถึง<span class="text-danger">*</span></label>
+
+                                                             <div class="col-sm-7">
+
+                                                               <div class="form-group">
+
+
+
+                                                                <div class="checkbox">
+
+                                                                      <input id="dashboard" type="checkbox" value="dashboard" name="M[dashboard]">
+
+                                                                      <label for="dashboard">
+
+                                                                         ภาพรวม
+
+                                                                      </label>
+
+                                                                </div>
+
+                                                                 </div>
+
+
+
+                                                               <div class="form-group">
+
+                                                                     <div>
+
+                                                                         <div class="checkbox">
+
+                                                                             <input id="menuall" name="M[menuall]" value="menuall" type="checkbox" >
+
+                                                                             <label for="menuall"> จัดการเมนู </label>
+
+                                                                         </div>
+
+                                                                         <div class="m-l-30">
+
+                                                                           <div class="checkbox">
+
+                                                                               <input id="mesall" name="S[menuall][mesall]" value="mesall" type="checkbox">
+
+                                                                               <label for="mesall"> รายการเมนู</label>
+
+                                                                           </div>
+
+                                                                           <div class="checkbox">
+
+                                                                               <input id="contentme" name="S[menuall][contentme]" value="contentme" type="checkbox">
+
+                                                                               <label for="contentme"> เมนูหน้าเนื้อหาี้</label>
+
+                                                                           </div>
+                                                                         </div>
+
+                                                                     </div>
+
+                                                                 </div>
+
+
+
+                                                                 <div class="form-group">
+
+                                                                       <div>
+
+                                                                           <div class="checkbox">
+
+                                                                               <input id="Systemsettings" name="M[Systemsettings]" value="Systemsettings" type="checkbox">
+
+                                                                               <label for="Systemsettings"> ตั้งค่าระบบ </label>
+
+                                                                           </div>
+
+                                                                           <div class="m-l-30">
+
+                                                                             <div class="checkbox">
+
+                                                                                 <input id="company" name="S[Systemsettings][company]" value="company" type="checkbox">
+
+                                                                                 <label for="company"> ตั้งค่าเบื้องต้น </label>
+
+                                                                             </div>
+                                                                             <div class="checkbox">
+
+                                                                                 <input id="settingsend" name="S[Systemsettings][settingsend]" value="settingsend" type="checkbox">
+
+                                                                                 <label for="settingsend"> ตั้งค่าการจัดส่ง </label>
+
+                                                                             </div>
+
+                                                                       </div>
+
+                                                                   </div>
+
+                                                                 </div>
+
+
+
+
+
+                                                                 <div class="form-group">
+
+                                                                       <div>
+
+                                                                           <div class="checkbox">
+
+                                                                               <input id="market" name="M[market]" value="market" type="checkbox">
+
+                                                                               <label for="market"> การตลาด</label>
+
+                                                                           </div>
+
+                                                                           <div class="m-l-30">
+
+                                                                             <div class="checkbox ">
+
+                                                                                 <input id="promotion" name="S[market][promotion]" value="promotion" type="checkbox">
+
+                                                                                 <label for="promotion">โปรโมชั่น </label>
+
+                                                                             </div>
+
+                                                                             <div class="checkbox ">
+
+                                                                                 <input id="allcoupon" name="S[market][allcoupon]" value="allcoupon" type="checkbox">
+
+                                                                                 <label for="allcoupon"> รายการคูปอง</label>
+
+                                                                             </div>
+
+                                                                           </div>
+
+                                                                       </div>
+
+                                                                   </div>
+
+                                                                   <div class="form-group">
+
+                                                                         <div>
+
+                                                                             <div class="checkbox">
+
+                                                                                 <input id="Pro" name="M[Pro]" value="Pro" type="checkbox">
+
+                                                                                 <label for="Pro"> สินค้า</label>
+
+                                                                             </div>
+
+                                                                             <div class="m-l-30">
+
+                                                                               <div class="checkbox ">
+
+                                                                                   <input id="products" name="S[Pro][products]" value="products" type="checkbox">
+
+                                                                                   <label for="products">รายการสินค้า </label>
+
+                                                                               </div>
+
+                                                                               <div class="checkbox ">
+
+                                                                                   <input id="listcategory" name="S[market][listcategory]" value="listcategory" type="checkbox">
+
+                                                                                   <label for="listcategory"> จัดการเมนูสินค้า</label>
+
+                                                                               </div>
+
+                                                                             </div>
+
+                                                                         </div>
+
+                                                                     </div>
+
+
+
+                                                                   <div class="form-group">
+
+                                                                         <div>
+
+                                                                             <div class="checkbox">
+
+                                                                                 <input id="reportpage" name="M[reportpage]" value="reportpage" type="checkbox">
+
+                                                                                 <label for="reportpage"> รายงาน </label>
+
+                                                                             </div>
+
+                                                                         </div>
+
+                                                                     </div>
+
+
+
+
+
+                                                                       <div class="form-group">
+
+                                                                             <div>
+
+                                                                                 <div class="checkbox">
+
+                                                                                     <input id="member" name="M[member]" value="member" type="checkbox">
+
+                                                                                     <label for="member"> ลูกค้า</label>
+
+                                                                                 </div>
+
+                                                                             </div>
+
+                                                                         </div>
+
+
+                                                                             <div class="form-group">
+
+                                                                                   <div>
+
+                                                                                       <div class="checkbox">
+
+                                                                                           <input id="users" name="M[users]" value="users" type="checkbox">
+
+                                                                                           <label for="users"> เพิ่มผู้ใช้งานระบบ </label>
+
+                                                                                       </div>
+
+                                                                                   </div>
+
+                                                                               </div>
+
+
+
+                                                                               <div class="form-group">
+
+                                                                                     <div>
+
+                                                                                         <div class="checkbox">
+
+                                                                                             <input id="usergroup" name="M[usergroup]" value="usergroup" type="checkbox">
+
+                                                                                             <label for="usergroup">เพิ่มกลุ่มผู้ใช้งาน</label>
+
+                                                                                         </div>
+
+                                                                                     </div>
+
+                                                                                 </div>
+
+
+
+
+
+
+
+                                                             </div>
+
+                                                         </div>
+
+                                                         <div class="form-group row">
+
+                                                             <div class="col-sm-8 col-sm-offset-4">
+
+                                                                 <!-- <button type="submit" id="Submit"  class="btn btn-primary waves-effect waves-light" >
+
+                                                                     บันทึกข้อมูล
+
+                                                                 </button>
+
+                                                                 <button type="button"
+
+                                                                         class="btn btn-secondary waves-effect m-l-5" data-dismiss="modal" onclick="document.getElementById('FrmAction').reset();" >
+
+                                                                     ยกเลิก
+
+                                                                 </button> -->
+
+                                                                 <input type="hidden" value="<?=base_url()?>usergroup/Save" name="url" id="url"  />
+
+                                                                  <input type="hidden" name="groupID" id="groupID"  />
+
+                                                             </div>
+
+                                                         </div>
+
+                                                 </div>
+
+
+
+                                             </div>
+
+
+
+
+
+                                         </div>
+
+                                       </div>
+
+                                       <div class="modal-footer modal-footerfull">
+
+                                         <button type="button"
+
+                                                 class="btn btn-secondary waves-effect m-l-5 cls" data-dismiss="modal" onclick="document.getElementById('FrmAction').reset();" >
+
+                                             ยกเลิก
+
+                                         </button>
+
+                                         <button type="submit" id="Submit"  class="btn btn-primary waves-effect waves-light" >
+
+                                             บันทึกข้อมูล
+
+                                         </button>
+
+                                       </div>
+
+                                          </form>
+
+                                   </div><!-- /.modal-content -->
+
+                               </div><!-- /.modal-dialog -->
+
+                           </div><!-- /.modal -->
+
+
+
+
+
+
+
+      <!-- ============================================================== -->
+
+      <!-- End Right content here -->
+
+      <!-- ============================================================== -->
